@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Touch事件示例</title>
+
+    <style>
+        #myCanvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="750" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // 在Canvas上绘制一个特定区域
+        ctx.fillStyle = "blue";
+        ctx.fillRect(100, 50, 200, 100);
+
+        // 添加touchstart事件监听器
+        canvas.addEventListener("touchstart", function(event) {
+            const touch = event.touches[0]; // 获取第一个触摸点的信息
+
+            // 获取触摸点的坐标
+            const x = touch.clientX - canvas.getBoundingClientRect().left;
+            const y = touch.clientY - canvas.getBoundingClientRect().top;
+
+            // 检查触摸点是否在特定区域内
+            if (x >= 100 && x <= 300 && y >= 50 && y <= 150) {
+                console.log('触摸发生在特定区域内');
+                
+            }
+        });
+    </script>
+</body>
+</html>

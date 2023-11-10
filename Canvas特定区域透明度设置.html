@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas特定区域透明度设置</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="750" height="1000"></canvas>
+
+    <!-- <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        const image = new Image();
+        image.src = "./img/10.png"; // 图片的URL
+
+        function draw() {
+            // 清空Canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制图片
+            ctx.globalAlpha = 0.1;
+            ctx.drawImage(image,0,0, 400, 400);
+            ctx.globalAlpha = 1;
+
+            // 创建一个透明度遮罩
+            const maskData = ctx.createImageData(400, 400);
+            console.log('maskData',maskData)
+            
+            
+            ctx.putImageData(maskData, 400, 400);
+
+            // 绘制图片
+            // ctx.drawImage(image, 100, 100, 200, 100);
+        }
+
+        image.onload = function() {
+            draw();
+        };
+    </script> -->
+
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        const image = new Image();
+        image.src = "./img/10.png"; // 图片的URL
+
+        function draw() {
+            // 清空Canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制图片
+            ctx.drawImage(image, 100, 100, 200, 100);
+
+            // 创建一个透明度遮罩
+            const maskData = ctx.createImageData(200, 100);
+            for (let i = 0; i < maskData.data.length; i += 4) {
+                // 设置特定区域的透明度
+                const x = (i / 4) % 200;
+                const y = Math.floor((i / 4) / 200);
+                if (x >= 50 && x <= 150 && y >= 50 && y <= 150) {
+                    maskData.data[i + 3] = 128; // 设置透明度为半透明
+                }
+            }
+            ctx.putImageData(maskData, 100, 100);
+
+            // 绘制图片
+            ctx.drawImage(image, 100, 100, 200, 100);
+        }
+
+        image.onload = function() {
+            draw();
+        };
+    </script>
+</body>
+</html>

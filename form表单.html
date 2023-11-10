@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Form</title>
+</head>
+<body>
+    <h1>Sample Form</h1>
+    <form action="./" method="POST" onchange="tip">
+        <!-- 文本输入框 -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <!-- 密码输入框 -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+
+        <!-- 单选按钮 -->
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        <br>
+
+        <!-- 多选复选框 -->
+        <label>Interests:</label>
+        <input type="checkbox" id="sports" name="interests[]" value="sports">
+        <label for="sports">Sports</label>
+        <input type="checkbox" id="music" name="interests[]" value="music">
+        <label for="music">Music</label>
+        <br>
+
+        <!-- 下拉菜单 -->
+        <label for="country">Country:</label>
+        <select id="country" name="country">
+            <option value="usa">United States</option>
+            <option value="canada">Canada</option>
+            <option value="uk">United Kingdom</option>
+        </select>
+        <br>
+
+        <!-- 提交按钮 -->
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>Form</h1>
+    <form onchange="tip" onsubmit="tip(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+    
+        <label for="message">Message:</label>
+        <textarea onchange="tip(event)" id="message" name="message"></textarea>
+    
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function tip(e) {
+            e.preventDefault()
+            console.log('123')
+        }
+
+    </script>
+</body>
+</html>

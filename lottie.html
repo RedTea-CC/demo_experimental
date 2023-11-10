@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>倒计时示例</title>
+</head>
+<body>
+    <button id="startButton">开始倒计时</button>
+    <div id="countdown">5.00</div>
+    <div id="lottie"></div>
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const countdownDisplay = document.getElementById("countdown");
+
+        let countdown = 5.00; // 初始倒计时时间
+
+        function updateCountdown() {
+            countdownDisplay.innerText = countdown;
+            countdown = (countdown - 0.01).toFixed(2);
+
+            if (countdown < 0) {
+                countdownDisplay.innerText = "倒计时结束";
+                return;
+            }
+
+            setTimeout(updateCountdown, 10); // 每隔0.01秒更新倒计时
+        }
+
+        startButton.addEventListener("click", () => {
+            startButton.disabled = true;
+            updateCountdown();
+        });
+    </script>
+    <!--引入lottie的js文件地址-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.1/lottie.min.js"></script>
+	<!--引入的js格式文件-->
+	<script type="text/javascript" src="json/animation.js"></script>
+	<script type="text/javascript">
+		//使用lottie
+		const anim = lottie.loadAnimation({
+			container: document.getElementById('lottie'),
+			renderer: 'svg',//渲染方式：svg：支持交互、不会失帧；canvas、html：支持3D，支持交互
+			loop: false,//循环播放：默认为true
+			autoplay: true,//自动播放：默认为true
+			//assetsPath:'images/',//图片文件夹的路径(这里可以设置图片地址，如果设置了最终是在这个路径下找图片)
+			animationData: one //变量名（还记得上面声明变量接收的json文件或者js文件吧，跟那个接收的名字要一样）
+		})
+
+		//然后就是把这段代码放在你想要运行的时候，比如想要在加载之后就执行，那就放在以下代码里
+		window.onload=function(){anim.play()}
+	</script>
+</body>
+</html>
