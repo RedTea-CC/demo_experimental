@@ -15,25 +15,18 @@ var minSwapsCouples = function (row) {
             }
             // 交换位置
             index = row.indexOf(row[i] + 1);
-            console.log('交换前',index,i+1);
-            
             [row[index],row[i+1]] = [row[i+1],row[index]];
-            console.log('row:',row);
-            console.log('交换后',row[index],row[i+1],row[i+1],'index:');
         } else {
             // 奇数   
             if (row[i + 1] == row[i] - 1) {
-                // 不用交换位置
                 continue;
             }
-            // 交换位置
             index = row.indexOf(row[i] - 1);
             [row[index],row[i+1]] = [row[i+1],row[index]];
             count++
         }
     }
-    console.log('结束',row)
-    
+
     return count
 };
 
