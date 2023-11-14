@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div class="g-container">
+			<div class="g-item" style="--delay: 0"></div>
+			<div class="g-item" style="--delay: 1"></div>
+			<div class="g-item" style="--delay: 2"></div>
+		</div>
+
+		<div class="g-container">
+			<div class="g-item" style="--delay: 0"></div>
+			<div class="g-item" style="--delay: 0.6"></div>
+			<div class="g-item" style="--delay: 1.2"></div>
+			<div class="g-item" style="--delay: 1.8"></div>
+			<div class="g-item" style="--delay: 2.4"></div>
+		</div>
+
+		<style>
+			html,
+			body {
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+			}
+
+			.g-container {
+				margin: auto;
+				width: 200px;
+				height: 200px;
+			}
+
+			.g-item {
+				position: absolute;
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: #000;
+				transform-origin: 50% 120px;
+				animation: rotate 3s infinite linear;
+				animation-delay: calc(var(--delay) * -1s);
+			}
+
+			@keyframes rotate {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+	</body>
+</html>
