@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template Element Example</title>
+</head>
+<body>
+
+  <!-- 定义一个模板:该内容在加载页面时不会呈现 -->
+  <template id="myTemplate">
+    <p>This is a template content.</p>
+  </template>
+  <template>123</template>
+  <!-- 在页面中使用模板 -->
+  <div id="app"></div>
+
+  <script>
+    // 获取模板元素
+    const template = document.getElementById('myTemplate');
+
+    // 克隆模板内容
+    const clone = document.importNode(template.content, true);
+
+    // 将克隆的内容添加到页面中
+    document.getElementById('app').appendChild(clone);
+  </script>
+
+</body>
+</html>
