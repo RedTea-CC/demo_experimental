@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>木鱼</title>
+</head>
+<body>
+   
+
+    <h1>点击攒功德</h1>
+    <audio id="audio_id" controls loop src="./1103img/敲击木鱼_耳聆网_[声音ID：19572].wav">木鱼声</audio>
+    <br>
+    <audio id="audio_id1" controls autoplay loop src="./1103img/佛教歌曲 - 大悲咒.mp3">大悲咒</audio>
+    <button class="btn">bgm开关</button>
+    <div>
+    </div>
+
+    <style>
+          * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        html,
+        body {
+            background-color: black;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        div {
+            /* margin-top: 100px; */
+            width: 240px;
+            height: 201px;
+            margin: 300px auto;
+            background-image: url(./img/1.png);
+        }
+        h1 {
+            color: white;
+            display: block;
+            width: 650px;
+            height: 50px;
+            margin: 0 auto;
+        }
+        p {
+            display: block;
+        }
+        .n4 {
+            color: transparent;
+            position: absolute;
+            top: 300px;
+            left: 48%;
+            animation: yan 1s linear
+        }
+        #audio_id {
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #audio_id1 {
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 60px;
+        }
+        .btn {
+            position: absolute;
+            left: 0px;
+            top: 120px;
+            width: 80px;
+            height: 25px;
+        }
+        @keyframes run {
+            /* 缩放的动画效果 */
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes yan {
+            /* 淡入淡出效果 */
+            0% {
+                color: transparent;
+            }
+            100% {
+                color: white;
+                transform: translate(0px, -100px)
+            }
+        }
+    </style>
+
+
+<script>
+    //获取元素部分
+    var number = true;
+    var div = document.getElementsByTagName('div')[0]
+    var video1 = document.getElementById('audio_id')
+    var video2 = document.getElementById('audio_id1')
+    var btn = document.getElementsByTagName('button')[0]
+    //木鱼的点击事件
+    div.onclick = function () {
+        //改变div的样式，使其可以执行动画
+        div.style.cssText = 'animation: run 0.5s linear;'
+        //添加一个新的节点来显示功德+1
+        var p1 = document.createElement('p')//创建一个p标签
+        p1.innerHTML = '功德+1'
+        p1.className = 'n4'//这个p标签样式使用classname为n4的
+        document.body.appendChild(p1)//为父元素添加一个p标签
+        //播放木鱼敲的声音
+        video1.play();
+        //调用木鱼声音停止的函数，使用定时器使其延时执行，保证音乐播放只敲一下的声音
+        setTimeout(pause, 100)
+        //清除样式的定时器
+        setTimeout(qing, 500)
+        //清除添加的p标签
+        setTimeout(premove, 800)
+
+    }
+    function pause() {//写一个函数，使得木鱼敲的声音结束
+        video1.pause();
+    }
+    function qing() {//清除样式使其不可以执行动画
+        div.style.cssText = ''
+        p1.style.cssText = ''
+    }
+    function premove(){//清除添加的p标签
+        document.body.removeChild(p1.querySelector("p"));
+    }
+    //为按钮设置点击事件，使其可以开关bgm
+    btn.onclick = function () {
+        if (number === false) {
+            number = true;
+            video2.play();
+        } else {
+            number = false
+            video2.pause()
+        }
+
+    }
+</script>
+</body>
+</html>
