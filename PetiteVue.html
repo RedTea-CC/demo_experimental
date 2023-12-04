@@ -2,37 +2,75 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PetiteVue</title>
 </head>
 
 <body>
-
     <script type="module">
         // import { createApp } from 'https://unpkg.com/petite-vue?module'
-        import { createApp } from './js/PetiteVue.js'
+        import { createApp, reactive } from "./petite-vue/petite-vue.es.js";
 
-        createApp({
-            // exposed to all expressions
+        window.store = reactive({
             count: 0,
-            // getters
-            get plusOne() {
-                return this.count + 1
-            },
-            // methods
-            increment() {
+            inc() {
                 this.count++
             }
-        }).mount()
+        })
+        function Counter(props) {
+            return {
+                $template: '#counter-template',
+                count: props.initialCount,
+                inc() {
+                    this.count++
+                },
+            }
+        }
+
+        createApp({ store, Counter }).mount();
     </script>
 
-    <!-- v-scope value can be omitted -->
-    <div v-scope id="app">
-        <p>{{ count }}</p>
-        <p>{{ plusOne }}</p>
-        <button @click="increment">increment</button>
+    <template id="counter-template">
+        My count is {{ count }}
+        <button @click="inc">++</button>
+    </template>
+
+    <!-- reuse it -->
+    <div v-scope="Counter({ initialCount: 1 })"></div>
+    <div v-scope="Counter({ initialCount: 2 })">
+        <p>Global {{ store.count }}</p>
+        <button @click="store.inc">increment</button>
     </div>
+
+    <!-- <div v-scope="About({count:2})">
+        <p>{{count}}</p>
+        <button @click="inc">increment</button>
+    </div>
+    <div v-scope="Home({count:1})">
+        <p>{{count}}</p>
+        <button @click="inc">increment</button>
+    </div>
+    <script type="module">
+        import { createApp } from "https://unpkg.com/petite-vue?module";
+        function Home(props) {
+            return {
+                count: props.count,
+                inc() {
+                    this.count++;
+                },
+            };
+        }
+        function About(props) {
+            return {
+                count: props.count,
+                inc() {
+                    this.count++;
+                },
+            };
+        }
+        createApp({ Home, About }).mount();
+    </script> -->
 </body>
 
 </html>

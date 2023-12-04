@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue2</title>
+</head>
+
+<body>
+    <!-- <script src="https://unpkg.com/petite-vue" defer init></script> -->
+    <script src="./petite-vue/petite-vue.iife.js" defer init></script>
+
+
+    <script>
+
+        const app = {
+            // exposed to all expressions
+            count: 0,
+            // getters
+            get plusOne() {
+                return this.count + 1
+            },
+            // methods
+            increment() {
+                this.count++
+                console.log('this.count',this.count)
+                
+            }
+        }
+    </script>
+
+    <div v-scope="app" id="app">
+        <p>{{ count }}</p>
+        <p>{{ plusOne }}</p>
+        <button @click="increment">increment</button>
+    </div>
+    <div v-scope="{ count: 0 }">
+        {{ count }}
+        <button @click="count++">inc</button>
+    </div>
+</body>
+<!-- <script src="./js/petite-vue.js"></script>
+<script>
+    PetiteVue.createApp().mount()
+</script> -->
+
+</html>
