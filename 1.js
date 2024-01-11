@@ -1,22 +1,21 @@
 class Parent {
-  constructor(name) {
-    this.name = name;
-  }
-
   sayHello() {
-    console.log(`Hello, ${this.name}!`);
+    console.log("Hello from Parent!");
   }
 }
 
 class Child extends Parent {
-  constructor(name, age) {
-    // 调用父类的构造函数
-    super(name);
+  sayHello() {
+    // 调用父类的同名方法
+    super.sayHello();
 
-    // 子类的其他初始化工作
-    this.age = age;
+    // 子类的其他逻辑
+    console.log("Hello from Child!");
   }
 }
 
-const child = new Child("John", 25);
-child.sayHello(); // 输出: Hello, John!
+const child = new Child();
+child.sayHello();
+// 输出:
+// Hello from Parent!
+// Hello from Child!
