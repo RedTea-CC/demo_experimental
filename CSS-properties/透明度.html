@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Parent with Opaque Child</title>
+    <style>
+        .parent {
+            background-color: rgba(255, 0, 0, 0.5);
+            /* 设置父元素的半透明红色背景 */
+            color: rgba(255, 0, 0, 0.5);
+            /* opacity: 1; */
+            /* 不能直接设置父元素的透明度 */
+            padding: 20px;
+        }
+
+        .child {
+            background-color: blue;
+            /* 设置子元素的背景色为蓝色 */
+            opacity: 1;
+            /* 设置子元素的透明度为完全不透明 */
+            color: white;
+            /* 设置文字颜色为白色 */
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent">
+        <p>This is the parent element with a semi-transparent background.</p>
+        <div class="child">
+            <p>This is the child element with an opaque background.</p>
+        </div>
+    </div>
+</body>
+
+</html>
