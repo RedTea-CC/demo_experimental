@@ -2,7 +2,7 @@
 
 /**
  * reverse() 方法就地反转数组中的元素。
- * @returns {Array} 返回一个新的数组
+ * @returns {Array} 返回同一数组的引用
  */
 Array.prototype.myReverse = function () {
   let left = 0;
