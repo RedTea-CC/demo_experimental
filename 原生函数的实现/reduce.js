@@ -59,3 +59,35 @@ let result = Reduce([1, 2, 3], (accumulator, currentValue, currentIndex, array) 
   return accumulator + currentValue;
 });
 console.log("result:",result);
+
+// ---------
+/**
+ * reduceRight() works just like reduce(), except that it processes the array from right-to-left.
+ */
+Array.prototype.reduceRight = function (callback, initialValue) {
+  const len = this.length;
+
+  if (typeof callback !== "function") {
+    throw new TypeError("callback must be a function");
+  }
+
+  if (len === 0 && !initialValue) {
+    throw new TypeError("Reduce of empty array with no initial value");
+  }
+
+  let k = len - 1;
+  let accumulator = initialValue;
+
+  if (!accumulator) {
+    accumulator = this[k--];
+  }
+
+  while (k >= 0) {
+    if (k in this) {
+      accumulator = callback.call(this, accumulator, this[k], k, this);
+    }
+    k--;
+  }
+
+  return accumulator;
+}
