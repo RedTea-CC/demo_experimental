@@ -78,12 +78,45 @@ Array.prototype.fill = function (value, start = 0, end = this.length) {
   return this;
 };
 
-const array1 = [1, 2, 3, 4];
+// const array1 = [1, 2, 3, 4];
 
-// Fill with 0 from position 2 until position 4
-console.log(array1.fill(0, 2, 4)); // Expected output: Array [1, 2, 0, 0]
+// console.log(array1.fill(0, 2, 4)); // Expected output: Array [1, 2, 0, 0]
+// console.log(array1.fill(5, 1)); // Expected output: Array [1, 5, 5, 5]
+// console.log(array1.fill(6)); // Expected output: Array [6, 6, 6, 6]
 
-// Fill with 5 from position 1
-console.log(array1.fill(5, 1)); // Expected output: Array [1, 5, 5, 5]
+/**
+ * 在数组内部，将一系列元素的位置复制到另一个位置，并返回它，不改变数组的长度。
+ *
+ * @param {Array} array - 需要操作的数组。
+ * @param {number} target - 从该位置开始替换数据。如果为负值，target 将从末尾开始计算。
+ * @param {number} [start=0] - 从该位置开始读取数据。如果为负值，start 将从末尾开始计算。
+ * @param {number} [end=array.length] - 在该位置停止读取数据（不包括该位置）。如果为负值，end 将从末尾开始计算。
+ * @returns {Array} 修改后的数组。
+ */
+Array.prototype.copyWithin = function (target, start = 0, end = this.length) {
+  let len = this.length;
 
-console.log(array1.fill(6)); // Expected output: Array [6, 6, 6, 6]
+  // 索引处理
+  target = target < 0 ? Math.max(target + len, 0) : target;
+  if (target >= len) return this;
+
+  start = start < 0 ? Math.max(target + len, 0) : start;
+  if (start >= len) return this;
+
+  end = end < 0 ? Math.max(target + len, 0) : Math.min(end, len);
+  // 如果 end 位于 start 之前，则不会拷贝任何内容
+  if (end <= start) return this;
+
+  const copyArray = this.slice(start, end);
+  for (let i = 0; i < copyArray.length; i++, target++) {
+    this[target] = copyArray[i];
+  }
+  return this;
+};
+
+const array1 = ["a", "b", "c", "d", "e"];
+
+console.log(array1.copyWithin(0, 3, 4));
+// Expected output: Array ["d", "b", "c", "d", "e"]
+console.log(array1.copyWithin(1, 3));
+// Expected output: Array ["d", "d", "e", "d", "e"]
