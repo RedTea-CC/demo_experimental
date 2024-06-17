@@ -18,11 +18,11 @@ function includes(array, searchElement, fromIndex = 0) {
   return false;
 }
 
-const array1 = [1, 2, 3];
-console.log(array1.includes(2)); // Expected output: true
-const pets = ["cat", "dog", "bat"];
-console.log(pets.includes("cat")); // Expected output: true
-console.log(pets.includes("at")); // Expected output: false
+// const array1 = [1, 2, 3];
+// console.log(array1.includes(2)); // Expected output: true
+// const pets = ["cat", "dog", "bat"];
+// console.log(pets.includes("cat")); // Expected output: true
+// console.log(pets.includes("at")); // Expected output: false
 
 /**
  * 在数组中查找符合测试函数条件的第一个元素的值。如果没有找到符合条件的元素，则返回undefined。
@@ -57,7 +57,7 @@ Array.prototype.findIndex = function (array, callback, thisArg = undefined) {
 };
 
 /**
- * 用一个固定值填充数组中从起始索引到终止索引内的全部元素。
+ * 用一个固定值填充数组中从起始索引到终止索引内的全部元素。不会改变 this 的长度，但会改变 this 的内容。
  *
  * @param {Array} array - 需要填充的数组。
  * @param {*} value - 用来填充数组元素的值。
@@ -65,11 +65,25 @@ Array.prototype.findIndex = function (array, callback, thisArg = undefined) {
  * @param {number} [end=array.length] - 结束填充位置（不包含）。
  * @returns {Array} 修改后的数组。
  */
-Array.prototype.fill = function (value, start = 0, end = array.length) {
+Array.prototype.fill = function (value, start = 0, end = this.length) {
   let len = this.length;
   // 处理负索引
-  let start = begin < 0 ? Math.max(len + begin, 0) : Math.min(begin, len);
-  let stop = end < 0 ? Math.max(len + end, 0) : Math.min(end, len);
-
-
+  start = start < 0 ? Math.max(len + start, 0) : start;
+  if (start >= len) return this;
+  end = end < 0 ? Math.max(len + end, 0) : Math.min(end, len);
+  if (end <= start) return this;
+  for (let i = start; i < end; i++) {
+    this[i] = value;
+  }
+  return this;
 };
+
+const array1 = [1, 2, 3, 4];
+
+// Fill with 0 from position 2 until position 4
+console.log(array1.fill(0, 2, 4)); // Expected output: Array [1, 2, 0, 0]
+
+// Fill with 5 from position 1
+console.log(array1.fill(5, 1)); // Expected output: Array [1, 5, 5, 5]
+
+console.log(array1.fill(6)); // Expected output: Array [6, 6, 6, 6]
