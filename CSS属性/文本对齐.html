@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Alignment</title>
+    <style>
+        .aligned-text {
+            display: inline-block;
+            vertical-align: top;
+            max-width: 400px;
+            /* 设置最大宽度以触发换行 */
+
+            /* 文字向两侧对齐，对最后一行无效。 */
+            text-align: justify;
+            /* 首行缩进 */
+            text-indent: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aligned-text">
+        213这是一些示例文本，用于展示文本换行时的对齐效果。
+        你可以看到每一行都对齐到左边，同时第一行有一个缩进。
+        这是另一段长文本，用于进一步展示文本换行时的对齐效果。
+        当文本足够长时，你会看到每一行都对齐到左边。
+    </div>
+</body>
+
+</html>
