@@ -1,5 +1,5 @@
 /**
- * Reduces an array to a single value by calling the callback function for each element in the array.
+ * reduce通过为数组中的每个元素调用回调函数将数组简化为单个值。
  *
  * @param {Function} callback
  * @param {*} initialValue
@@ -40,25 +40,34 @@ let arry = [1, 2, 3];
 // }, 0);
 
 //
-Reduce = (array, callback, initialValue) => {
+const Reduce = (array, callback, initialValue) => {
   let curIndex = 0;
   let len = array.length;
   let accumulator = initialValue ? initialValue : array[curIndex++];
 
   while (curIndex < len) {
     if (curIndex in array) {
-        accumulator = callback.call(array, accumulator, array[curIndex], curIndex, array);
+      accumulator = callback.call(
+        array,
+        accumulator,
+        array[curIndex],
+        curIndex,
+        array
+      );
     }
     curIndex++;
   }
   return accumulator;
-}
+};
 
-let result = Reduce([1, 2, 3], (accumulator, currentValue, currentIndex, array) => {
-  console.log(accumulator, currentValue, currentIndex, array);
-  return accumulator + currentValue;
-});
-console.log("result:",result);
+let result = Reduce(
+  [1, 2, 3],
+  (accumulator, currentValue, currentIndex, array) => {
+    console.log(accumulator, currentValue, currentIndex, array);
+    return accumulator + currentValue;
+  }
+);
+console.log("result:", result);
 
 // ---------
 /**
@@ -90,4 +99,4 @@ Array.prototype.reduceRight = function (callback, initialValue) {
   }
 
   return accumulator;
-}
+};
