@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>通过drop-shadow设置元素非透明区域的"border"</h1>
+    <div class="container"></div>
+
+    <div class="box"></div>
+
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            /* 通过drop-shadow设置元素非透明区域的"border" */
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+        }
+
+        .box {
+            position: relative;
+            left: 120px;
+            width: 400px;
+            height: 200px;
+            border-radius: 4px;
+            background: #fff;
+            filter: drop-shadow(0px 0px 1px black);
+        }
+
+        .box::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            width: 30px;
+            height: 40px;
+            background: inherit;
+            transform: skew(30deg);
+            border-top-left-radius: 10px;
+        }
+    </style>
+</body>
+
+</html>
