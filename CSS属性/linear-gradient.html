@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>线性渐变</title>
+</head>
+
+<body>
+    <div class="content">
+        <div>总收入</div>
+        <div>100元</div>
+    </div>
+
+    <div
+        style="width: 300px; height: 150px; background: linear-gradient(to right, red 20%, yellow 20% 50%, green 50% 80%);">
+    </div>
+
+    <div style="width: 300px; height: 150px; background: linear-gradient(to right, red 20%, yellow 50%, green 80%);">
+    </div>
+    <div style="width: 300px; height: 150px; background: repeating-linear-gradient(90deg, red, yellow 10%, green 20%);">
+    </div>
+
+    <style>
+        .content {
+            margin-top: 30px;
+            width: 400px;
+            height: 100px;
+            background: linear-gradient(110deg,
+                    rgb(1, 228, 161) 49%,
+                    rgb(0, 0, 0) 2% 51%,
+                    rgb(226, 237, 251) 49%);
+            border-radius: 4px;
+            filter: drop-shadow(0px 0px 1px black);
+
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
+</body>
+
+</html>
