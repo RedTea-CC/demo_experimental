@@ -2,13 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 </head>
 
 <body>
     <div class="box"></div>
+
     <div class="content">
         <div>总收入</div>
         <div>100元</div>
@@ -30,7 +31,7 @@
         }
 
         .box::before {
-            content: '';
+            content: "";
             position: absolute;
             left: -2px;
             width: 30px;
@@ -44,7 +45,10 @@
             margin-top: 30px;
             width: 400px;
             height: 100px;
-            background: linear-gradient(110deg, rgb(1, 228, 161) 49%, rgb(0, 0, 0) 2% 51%, rgb(226, 237, 251) 49%);
+            background: linear-gradient(110deg,
+                    rgb(1, 228, 161) 49%,
+                    rgb(0, 0, 0) 2% 51%,
+                    rgb(226, 237, 251) 49%);
             border-radius: 4px;
             filter: drop-shadow(0px 0px 1px black);
 
@@ -61,15 +65,23 @@
             justify-content: flex-start;
         }
 
-        .text {}
+        .text {
+            display: inline-flex;
+            /* 确保内容和伪元素可以水平对齐 */
+            align-items: center;
+            /* 垂直对齐 */
+        }
 
         .text::before {
-            content: '';
+            content: "";
             display: inline-block;
-            width: 6px;
-            height: 6px;
+            /* 使其成为一个可设置尺寸的方块 */
+            width: 8px;
+            height: 8px;
             background-color: rgba(45, 194, 79, 1);
             border-radius: 50%;
+            margin-right: 8px;
+            /* 圆与文本之间的间距 */
         }
 
         .original {
