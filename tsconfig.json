@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "strict": true,
+      "jsx": "preserve",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+      "lib": ["es2020", "dom"],
+      "skipLibCheck": true,
+      "noImplicitAny": false
+    },
+    "include": ["src/**/*", "src/**/*.vue"],
+    "exclude": ["node_modules"]
+  }

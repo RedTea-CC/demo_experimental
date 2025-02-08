@@ -1,24 +1,14 @@
-// 实现一个重试方法，要求传入一个异步函数和n(重试次数)，当函数执行n次失败停止执行
-const retry = async (fn: () => Promise<any>, n: number) => {
-  let i = 0;
-  while (i < n) {
-    try {
-      return await fn();
-    } catch (e) {
-      i++;
-    }
-  }
-};
+const str = "#1 Htmnl,20元# #2 Cs,300元# #3 Node # Node #4 Js,400元#";
+const reg = /#(\d+)\s*([^\s,]*),?(\d*)元#/g;
+let result: any = [];
+let temp;
 
-const mockFn = async () => {
-  console.log("try");
-  return Promise.reject("error");
-};
-
-retry(mockFn, 3)
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((e) => {
-    console.log(e);
+while ((temp = reg.exec(str)) !== null) {
+  result.push({
+    id: temp[1],
+    name: temp[2],
+    price: temp[3] || "免费",
   });
+}
+
+console.log(result);
