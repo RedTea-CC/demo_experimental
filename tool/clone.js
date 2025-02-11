@@ -1,4 +1,4 @@
-// 浅克隆
+// ---------------------------------浅克隆----------------------------------------
 
 // 展开运算符
 const originalArray = [1, 2, 3];
@@ -10,7 +10,7 @@ const copyObject = { ...originalObject };
 const originalArray2 = [1, 2, 3];
 const copyArray2 = originalArray2.slice();
 
-// -------------------------------------------------------------------------
+// ----------------------------------深克隆---------------------------------------
 
 // 深克隆函数
 function deepClone(target) {
@@ -55,31 +55,30 @@ function deepClone1(target, map = new WeakMap()) {
 
 // 修改
 function deepClone2(target, map = new Map()) {
-    // 如果目标是基本类型或者null，直接返回
-    if (typeof target !== "object" || target === null) {
-      return target;
-    }
-
-    // 检查这个对象是否已经被复制过
-    if (map.has(target)) {
-      return map.get(target);
-    }
-
-    let clone = Array.isArray(target) ? [] : {};
-    // 存储已经复制的对象地址（引用）
-    map.set(target, clone);
-
-    // 循环处理对象属性
-    for (let [key, value] of Object.entries(target)) {
-      if (Object.prototype.hasOwnProperty.call(target, key)) {
-        // 递归克隆
-        clone[key] = deepClone2(value, map);
-      }
-    }
-
-    return clone;
+  // 如果目标是基本类型或者null，直接返回
+  if (typeof target !== "object" || target === null) {
+    return target;
   }
 
+  // 检查这个对象是否已经被复制过
+  if (map.has(target)) {
+    return map.get(target);
+  }
+
+  let clone = Array.isArray(target) ? [] : {};
+  // 存储已经复制的对象地址（引用）
+  map.set(target, clone);
+
+  // 循环处理对象属性
+  for (let [key, value] of Object.entries(target)) {
+    if (Object.prototype.hasOwnProperty.call(target, key)) {
+      // 递归克隆
+      clone[key] = deepClone2(value, map);
+    }
+  }
+
+  return clone;
+}
 
 // Usage example:
 let originalObj = {
