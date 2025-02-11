@@ -1,25 +1,23 @@
 // 发布订阅模式
 class EventEmitter {
-  constructor() {
-    this.eventsMap = new Map();
-  }
+  #eventsMap = new Map();
 
   // 订阅事件
   on(eventName, callback) {
-    const newArry = this.eventsMap.get(eventName) || [];
+    const newArry = this.#eventsMap.get(eventName) || [];
     newArry.push(callback);
-    this.eventsMap.set(eventName, newArry);
+    this.#eventsMap.set(eventName, newArry);
   }
 
   // 发布事件
   emit(event, ...args) {
-    if (!this.eventsMap.has(event)) return;
+    if (!this.#eventsMap.has(event)) return;
 
-    this.eventsMap.get(event).forEach((fn) => fn(...args));
+    this.#eventsMap.get(event).forEach((fn) => fn(...args));
   }
 
   off(event) {
-    this.eventsMap.delete(event);
+    this.#eventsMap.delete(event);
   }
 
   once(event, callback) {
@@ -40,3 +38,15 @@ const globalEventEmitter = new EventEmitter();
 export const createEventEmitter = () => new EventEmitter();
 
 export default globalEventEmitter;
+
+const eventEmitter = new EventEmitter();
+
+// 唯一订阅
+eventEmitter.once("message", (msg) => {
+  console.log(`Received message: ${msg}`);
+});
+
+// 发布事件
+setTimeout(() => {
+  eventEmitter.emit("message", "Hello, World!");
+}, 3000);
