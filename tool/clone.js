@@ -1,5 +1,15 @@
 // ---------------------------------浅克隆----------------------------------------
 
+/**
+ * 1. Object.assign() ? 仅适用于对象, 且只能复制对象的可枚举属性
+ * 2. 展开运算符
+ * 3. 数组slice()
+ */
+
+// Object.assign()
+const originalObject1 = { x: 1, y: 2 };
+const copyObject1 = Object.assign({}, originalObject1);
+
 // 展开运算符
 const originalArray = [1, 2, 3];
 const originalObject = { x: 1, y: 2 };
@@ -11,6 +21,15 @@ const originalArray2 = [1, 2, 3];
 const copyArray2 = originalArray2.slice();
 
 // ----------------------------------深克隆---------------------------------------
+
+/**
+ * 基本类型存储在栈内存中，引用类型存储在堆内存中，栈内存中存储的是指向堆内存中的地址
+ * 浅克隆只会复制基本类型的值，引用类型的值仍然指向原来的地址
+ *
+ * 1. JSON.parse(JSON.stringify(obj))
+ * 2. 递归克隆
+ * 3. 循环引用问题
+ */
 
 // 深克隆函数
 function deepClone(target) {
