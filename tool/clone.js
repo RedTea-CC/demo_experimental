@@ -37,13 +37,28 @@ function deepClone(target) {
   if (typeof target !== "object" || target === null) {
     return target;
   }
+  if (target instanceof Date) return new Date(target);
+  if (target instanceof RegExp) return new RegExp(target);
+
   let clone = Array.isArray(target) ? [] : {};
-  for (let key in target) {
-    if (Object.prototype.hasOwnProperty.call(target, key)) {
-      // 递归克隆
+
+  // in 操作符会检查对象的整个原型链，而 hasOwnProperty 只会检查对象本身的属性
+  // for (let key in target) {
+  //   if (Object.prototype.hasOwnProperty.call(target, key)) {
+  //     // 递归克隆
+  //     clone[key] = deepClone(target[key]);
+  //   }
+  // }
+
+  // 循环处理对象属性
+  // Reflect.ownKeys() 方法返回一个由目标对象自身的属性键组成的数组, 不包括继承的属性键, 但是包括不可枚举属性
+  // Reflect.ownKeys()接受数组时，多返回一个length属性
+  Reflect.ownKeys(target)
+    .filter((k) => k !== "length")
+    .forEach((key) => {
       clone[key] = deepClone(target[key]);
-    }
-  }
+    });
+
   return clone;
 }
 
@@ -106,7 +121,7 @@ let originalObj = {
   address: { city: "New York", country: "USA" },
 };
 let clonedObj = deepClone(originalObj);
-// console.log(clonedObj); // { name: 'John', age: 30, address: { city: 'New York', country: 'USA' } }
+console.log("deepClone:", clonedObj); // { name: 'John', age: 30, address: { city: 'New York', country: 'USA' } }
 
 let b = [1, 2, 3];
 // console.log(deepClone(b));
