@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Document</title>
 
-		<style type="text/css">
-			.cw-switch {
-				display: inline-block;
-				width: 48px;
-				height: 24px;
-				line-height: 22px;
-				border-radius: 24px;
-				vertical-align: middle;
-				border: 1px solid #ccc;
-				background-color: #ccc;
-				position: relative;
-				cursor: pointer; 
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
-				transition: all 0.2s ease-in-out;
-			}
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+
+	<style type="text/css">
+		.cw-switch {
+			display: inline-block;
+			width: 48px;
+			height: 24px;
+			line-height: 22px;
+			border-radius: 24px;
+			vertical-align: middle;
+			border: 1px solid #ccc;
+			background-color: #ccc;
+			position: relative;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			transition: all 0.2s ease-in-out;
+
 			.cw-switch-inner {
 				color: #fff;
 				font-size: 12px;
@@ -29,7 +30,7 @@
 				left: 25px;
 			}
 
-			.cw-switch:after {
+			&:after {
 				content: "";
 				width: 20px;
 				height: 20px;
@@ -40,57 +41,70 @@
 				top: 1px;
 				cursor: pointer;
 				transition: left 0.2s ease-in-out, width 0.2s ease-in-out;
+
 			}
-			.cw-switch:active:after {
+
+			&:active:after {
 				width: 26px;
 			}
-			.cw-switch-checked {
-				border-color: #39f;
-				background-color: #39f;
-			}
-			.cw-switch-checked .cw-switch-inner {
+		}
+
+		.cw-switch-checked {
+			border-color: #39f;
+			background-color: #39f;
+
+			.cw-switch-inner {
 				left: 8px;
 			}
-			.cw-switch-checked:after {
+
+			&:after {
 				left: 25px;
 			}
-			.cw-switch-checked:active:after {
+
+			&:active:after {
 				left: 19px;
 			}
-			.cw-switch-disabled {
-				cursor: not-allowed;
-				background: #f3f3f3;
-				border-color: #f3f3f3;
-			}
-			.cw-switch-disabled:after {
+		}
+
+		.cw-switch-disabled {
+			cursor: not-allowed;
+			background: #f3f3f3;
+			border-color: #f3f3f3;
+
+			&:after {
 				background: #ccc;
 				cursor: not-allowed;
 			}
-			.cw-switch-disabled .cw-switch-inner {
+
+			.cw-switch-inner {
 				color: #ccc;
 			}
-		</style>
-	</head>
-	<body>
-		<div id="useswitch" class="cw-switch cw-switch-checked">
-			<div class="cw-switch-inner">
-				<span id="word">开</span>
-			</div>
+
+		}
+	</style>
+</head>
+
+<body>
+	<div id="useswitch" class="cw-switch cw-switch-checked">
+		<div class="cw-switch-inner">
+			<span id="word">开</span>
 		</div>
+	</div>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 
-			document.addEventListener("DOMContentLoaded", function () {
-				var switchElement = document.getElementById("useswitch");
-				var wordElement = switchElement.querySelector("#word");
+		document.addEventListener("DOMContentLoaded", function () {
+			var switchElement = document.getElementById("useswitch");
+			var wordElement = switchElement.querySelector("#word");
 
-				switchElement.addEventListener("click", function (event) {
-                    console.log('click',switchElement.classList)
-                    
-					var isChecked = switchElement.classList.toggle("cw-switch-checked");
-					wordElement.textContent = isChecked ? "关" : "开";
-				});
+			switchElement.addEventListener("click", function (event) {
+				console.log('click', switchElement.classList)
+
+				var isChecked = switchElement.classList.toggle("cw-switch-checked");
+				wordElement.textContent = isChecked ? "关" : "开";
 			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
+
 </html>
