@@ -54,8 +54,8 @@ var longestPalindrome = function (s) {
 //   return res;
 // };
 
-// a = ["eabcb", "babad", "cbbd", "ac", "aaaa", "bacab", "aacabdkacaa"];
-a = ["abb"];
+const a = ["eabcb", "babad", "cbbd", "ac", "aaaa", "bacab", "aacabdkacaa"];
+// const a = ["abb"];
 a.forEach((s) => {
   console.log("result", longestPalindrome(s));
 });
