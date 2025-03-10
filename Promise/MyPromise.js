@@ -1,32 +1,42 @@
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
+const isFunction = (fn) => typeof fn === "function";
+const isObject = (obj) => obj !== null && typeof obj === "object";
+const isThenable = (obj) => isObject(obj) && isFunction(obj.then);
+const isPromise = (obj) => obj instanceof MyPromise;
+const isThenablePromise = (obj) => isThenable(obj) && isPromise(obj);
+const isSamePromise = (promise1, promise2) => promise1 === promise2;
+const isSameThenable = (thenable1, thenable2) => thenable1 === thenable2;
+const isSameThenablePromise = (thenable, promise) => isSameThenable(thenable, promise) && isThenablePromise(promise);
+
 class MyPromise {
+  // Initial state
+  #state = PENDING;
+  #value = undefined;
+  #reason = undefined;
+  // Success and failure callbacks storage
+  #onFulfilledCallbacks = [];
+  #onRejectedCallbacks = [];
+
   constructor(executor) {
-    // Initial state
-    this.state = "pending";
-    this.value = undefined;
-    this.reason = undefined;
-
-    // Success and failure callbacks storage
-    this.onFulfilledCallbacks = [];
-    this.onRejectedCallbacks = [];
-
     const resolve = (value) => {
-      if (this.state === "pending") {
-        this.state = "fulfilled";
-        this.value = value;
+      // 如果状态是pending，才可以改变状态
+      if (this.#state !== PENDING) return;
+      this.#state = FULFILLED;
+      this.#value = value;
 
-        // 执行所有存储的成功回调
-        this.onFulfilledCallbacks.forEach((callback) => callback(this.value));
-      }
+      // 执行所有存储的成功回调
+      this.#onFulfilledCallbacks.forEach((callback) => callback(this.#value));
     };
 
     const reject = (reason) => {
-      if (this.state === "pending") {
-        this.state = "rejected";
-        this.reason = reason;
-
-        // 执行所有存储的失败回调
-        this.onRejectedCallbacks.forEach((callback) => callback(this.reason));
-      }
+      // 如果状态是pending，才可以改变状态
+      if (this.#state !== PENDING) return;
+      this.#state = REJECTED;
+      this.#reason = reason;
+      // 执行所有存储的失败回调
+      this.#onRejectedCallbacks.forEach((callback) => callback(this.#reason));
     };
 
     // 立即执行回调函数
@@ -39,8 +49,7 @@ class MyPromise {
 
   then(onFulfilled, onRejected) {
     // Ensure callbacks are functions or return passthroughs
-    onFulfilled =
-      typeof onFulfilled === "function" ? onFulfilled : (value) => value;
+    onFulfilled = typeof onFulfilled === "function" ? onFulfilled : (value) => value;
     onRejected =
       typeof onRejected === "function"
         ? onRejected
@@ -48,52 +57,7 @@ class MyPromise {
             throw reason;
           };
 
-    const promise2 = new MyPromise((resolve, reject) => {
-      if (this.state === "fulfilled") {
-        // Ensure async execution
-        setTimeout(() => {
-          try {
-            const x = onFulfilled(this.value);
-            this.resolvePromise(promise2, x, resolve, reject);
-          } catch (error) {
-            reject(error);
-          }
-        }, 0);
-      } else if (this.state === "rejected") {
-        // Ensure async execution
-        setTimeout(() => {
-          try {
-            const x = onRejected(this.reason);
-            this.resolvePromise(promise2, x, resolve, reject);
-          } catch (error) {
-            reject(error);
-          }
-        }, 0);
-      } else if (this.state === "pending") {
-        // Store callbacks for execution after state change
-        this.onFulfilledCallbacks.push(() => {
-          setTimeout(() => {
-            try {
-              const x = onFulfilled(this.value);
-              this.resolvePromise(promise2, x, resolve, reject);
-            } catch (error) {
-              reject(error);
-            }
-          }, 0);
-        });
-
-        this.onRejectedCallbacks.push(() => {
-          setTimeout(() => {
-            try {
-              const x = onRejected(this.reason);
-              this.resolvePromise(promise2, x, resolve, reject);
-            } catch (error) {
-              reject(error);
-            }
-          }, 0);
-        });
-      }
-    });
+    const promise2 = new MyPromise((resolve, reject) => {});
 
     return promise2;
   }
