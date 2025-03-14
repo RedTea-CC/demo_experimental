@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="parent" style="background-color: lightblue; padding: 20px;">
+        父元素
+        <button id="child">子元素</button>
+    </div>
+    <script>
+        const parent = document.getElementById('parent');
+        const child = document.getElementById('child');
+
+        // 为父元素添加点击事件监听器
+        parent.addEventListener('click', function () {
+            console.log('父元素的点击事件被触发');
+        });
+
+        // 为子元素添加第一个点击事件监听器
+        child.addEventListener('click', function (event) {
+            console.log('子元素的第一个点击事件被触发');
+            // 阻止事件冒泡
+            // event.stopPropagation();
+
+            // 阻止事件冒泡和后续其他事件的执行
+            event.stopImmediatePropagation();
+        });
+
+        // 为子元素添加第二个点击事件监听器
+        child.addEventListener('click', function () {
+            console.log('子元素的第二个点击事件被触发');
+        });
+    </script>
+</body>
+
+</html>
