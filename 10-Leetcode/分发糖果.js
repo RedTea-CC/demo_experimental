@@ -3,22 +3,25 @@
  * @return {number}
  */
 var candy = function (ratings) {
-    let candy = new Array(ratings.length).fill(1)
+  const n = ratings.length;
+  let candy = new Array(n).fill(1);
 
-    // 从左往右
-    for (let i = 1; i < ratings.length; i++) {
-        if (ratings[i] > ratings[i - 1]) {
-            candy[i] = candy[i - 1] + 1
-        }
+  // 从左往右
+  for (let i = 1; i < n; i++) {
+    if (ratings[i] > ratings[i - 1]) {
+      candy[i] = candy[i - 1] + 1;
     }
-
-    // 从右往左
-    for (let i = ratings.length - 2; i < ratings.length; i--) {
-        
+  }
+  // 从右往左
+  for (let i = n - 2; i >= 0; i--) {
+    if (ratings[i] > ratings[i + 1]) {
+      const temp = Math.max(candy[i + 1] + 1, candy[i]);
+      candy[i] = temp;
     }
+  }
 
-    return candy.reduce((a, b) => a + b)
+  return candy.reduce((a, b) => a + b);
 };
 
-ratings = [1, 0, 2];
+const ratings = [1, 0, 2];
 console.log("candy:", candy(ratings));
