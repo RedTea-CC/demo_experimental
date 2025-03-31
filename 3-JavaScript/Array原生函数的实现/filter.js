@@ -8,7 +8,11 @@ function mySome(arry, callback, thisArg = undefined) {
   return false;
 }
 
-// every()方法测试一个数组内的所有元素是否都能通过指定函数的测试。它返回一个布尔值。
+/**
+ * every()方法测试一个数组内的所有元素是否都能通过指定函数的测试。它返回一个布尔值。
+ * 如果数组中的每个元素都通过了测试，则返回 true；否则返回 false。它不会修改数组。
+ * 如果是空数组，则返回 true。
+ */
 function myEvery(arry, callback, thisArg = undefined) {
   for (let i = 0; i < arry.length; i++) {
     if (!callback(arry[i], i, arry)) {
