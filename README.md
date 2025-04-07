@@ -1,4 +1,6 @@
 # demo_experimental
 
-#### 介绍
-练习的demo
+整理的一些demo
+
+## JavaScript/Array原生函数的实现
+手动实现JavaScript数组的原生方法
