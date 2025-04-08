@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventEmitter 测试页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .test-title {
+      font-size: 18px;
+      margin-top: 0;
+      color: #444;
+    }
+    .output {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      min-height: 50px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    .output-line {
+      margin: 2px 0;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+    button {
+      padding: 8px 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .controls {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>EventEmitter 发布订阅模式测试</h1>
+
+    <div class="test-section">
+      <h2 class="test-title">1. 基本功能测试</h2>
+      <div class="controls">
+        <button id="basicSubscribe">订阅消息</button>
+        <button id="basicPublish">发布消息</button>
+        <button id="multiParams">多参数测试</button>
+        <button id="multiSubscribers">多订阅者测试</button>
+      </div>
+      <div id="basicOutput" class="output"></div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="test-title">2. 取消订阅测试</h2>
+      <div class="controls">
+        <button id="subscribe">订阅事件</button>
+        <button id="publish">发布事件</button>
+        <button id="unsubscribe">取消订阅</button>
+        <button id="publishAfterUnsubscribe">取消后发布</button>
+      </div>
+      <div id="unsubscribeOutput" class="output"></div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="test-title">3. 一次性订阅测试</h2>
+      <div class="controls">
+        <button id="onceSubscribe">一次性订阅</button>
+        <button id="oncePublish1">首次发布</button>
+        <button id="oncePublish2">再次发布</button>
+      </div>
+      <div id="onceOutput" class="output"></div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="test-title">4. 单例和工厂模式测试</h2>
+      <div class="controls">
+        <button id="globalInstance">全局单例事件</button>
+        <button id="instance1Event">实例1事件</button>
+        <button id="instance2Event">实例2事件</button>
+      </div>
+      <div id="instanceOutput" class="output"></div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="test-title">5. 实时演示</h2>
+      <p>输入消息并发布到不同频道</p>
+      <div class="controls">
+        <input type="text" id="messageInput" placeholder="输入消息内容" style="padding: 8px; width: 200px;" />
+        <select id="channelSelect" style="padding: 8px; margin-left: 10px;">
+          <option value="channel1">频道 1</option>
+          <option value="channel2">频道 2</option>
+          <option value="channel3">频道 3</option>
+        </select>
+        <button id="sendMessage" style="margin-left: 10px;">发送消息</button>
+      </div>
+      <div class="controls">
+        <label><input type="checkbox" id="subscribeChannel1" checked> 订阅频道 1</label>
+        <label style="margin-left: 10px;"><input type="checkbox" id="subscribeChannel2" checked> 订阅频道 2</label>
+        <label style="margin-left: 10px;"><input type="checkbox" id="subscribeChannel3"> 订阅频道 3</label>
+      </div>
+      <div id="liveOutput" class="output"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    // 引入 EventEmitter
+    import globalEmitter, { createEventEmitter } from './EventEmitter.js';
+
+    // 用于向输出区域添加消息的辅助函数
+    function log(outputId, message, isSuccess = true) {
+      const output = document.getElementById(outputId);
+      const line = document.createElement('div');
+      line.className = `output-line ${isSuccess ? 'success' : 'error'}`;
+      line.textContent = message;
+      output.appendChild(line);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    // 清除输出区域
+    function clearOutput(outputId) {
+      const output = document.getElementById(outputId);
+      output.innerHTML = '';
+    }
+
+    // 1. 基本功能测试
+    const basicEmitter = createEventEmitter();
+
+    document.getElementById('basicSubscribe').addEventListener('click', () => {
+      clearOutput('basicOutput');
+      basicEmitter.on('message', (msg) => {
+        log('basicOutput', `收到消息: ${msg}`);
+      });
+      log('basicOutput', '已订阅 message 事件');
+    });
+
+    document.getElementById('basicPublish').addEventListener('click', () => {
+      basicEmitter.emit('message', '你好，EventEmitter!');
+    });
+
+    document.getElementById('multiParams').addEventListener('click', () => {
+      clearOutput('basicOutput');
+      basicEmitter.on('data', (name, age, city) => {
+        log('basicOutput', `收到数据: 姓名=${name}, 年龄=${age}, 城市=${city}`);
+      });
+      log('basicOutput', '已订阅 data 事件');
+      basicEmitter.emit('data', '张三', 25, '上海');
+    });
+
+    document.getElementById('multiSubscribers').addEventListener('click', () => {
+      clearOutput('basicOutput');
+      basicEmitter.on('update', (version) => {
+        log('basicOutput', `订阅者1收到更新: v${version}`);
+      });
+      basicEmitter.on('update', (version) => {
+        log('basicOutput', `订阅者2收到更新: v${version}`);
+      });
+      log('basicOutput', '已添加两个订阅者到 update 事件');
+      basicEmitter.emit('update', '1.0.1');
+    });
+
+    // 2. 取消订阅测试
+    const unsubscribeEmitter = createEventEmitter();
+
+    document.getElementById('subscribe').addEventListener('click', () => {
+      clearOutput('unsubscribeOutput');
+      unsubscribeEmitter.on('notify', () => {
+        log('unsubscribeOutput', '通知已接收');
+      });
+      log('unsubscribeOutput', '已订阅 notify 事件');
+    });
+
+    document.getElementById('publish').addEventListener('click', () => {
+      unsubscribeEmitter.emit('notify');
+    });
+
+    document.getElementById('unsubscribe').addEventListener('click', () => {
+      unsubscribeEmitter.off('notify');
+      log('unsubscribeOutput', '已取消 notify 事件的订阅', false);
+    });
+
+    document.getElementById('publishAfterUnsubscribe').addEventListener('click', () => {
+      log('unsubscribeOutput', '尝试发布事件（应该没有反应）...');
+      unsubscribeEmitter.emit('notify');
+    });
+
+    // 3. 一次性订阅测试
+    const onceEmitter = createEventEmitter();
+
+    document.getElementById('onceSubscribe').addEventListener('click', () => {
+      clearOutput('onceOutput');
+      onceEmitter.once('message', (msg) => {
+        log('onceOutput', `收到一次性消息: ${msg}`);
+      });
+      log('onceOutput', '已添加一次性订阅');
+    });
+
+    document.getElementById('oncePublish1').addEventListener('click', () => {
+      onceEmitter.emit('message', '第一次触发');
+    });
+
+    document.getElementById('oncePublish2').addEventListener('click', () => {
+      log('onceOutput', '尝试第二次触发事件（应该没有反应）...');
+      onceEmitter.emit('message', '第二次触发');
+    });
+
+    // 4. 单例和工厂模式测试
+    const instance1 = createEventEmitter();
+    const instance2 = createEventEmitter();
+
+    document.getElementById('globalInstance').addEventListener('click', () => {
+      clearOutput('instanceOutput');
+      globalEmitter.on('global', (msg) => {
+        log('instanceOutput', `全局事件: ${msg}`);
+      });
+      log('instanceOutput', '已订阅全局事件');
+      globalEmitter.emit('global', '这是全局消息');
+    });
+
+    document.getElementById('instance1Event').addEventListener('click', () => {
+      clearOutput('instanceOutput');
+      instance1.on('local', (msg) => {
+        log('instanceOutput', `实例1收到: ${msg}`);
+      });
+      log('instanceOutput', '已在实例1上订阅事件');
+      instance1.emit('local', '实例1的消息');
+      log('instanceOutput', '向实例2发送消息（不应被接收）...');
+      instance2.emit('local', '这条消息不应被实例1接收');
+    });
+
+    document.getElementById('instance2Event').addEventListener('click', () => {
+      clearOutput('instanceOutput');
+      instance2.on('local', (msg) => {
+        log('instanceOutput', `实例2收到: ${msg}`);
+      });
+      log('instanceOutput', '已在实例2上订阅事件');
+      instance2.emit('local', '实例2的消息');
+    });
+
+    // 5. 实时演示
+    const liveEmitter = createEventEmitter();
+    const channels = ['channel1', 'channel2', 'channel3'];
+
+    // 初始订阅
+    function setupChannelSubscriptions() {
+      channels.forEach(channel => {
+        // 清除已有订阅
+        liveEmitter.off(channel);
+
+        // 检查是否应该订阅
+        const checkbox = document.getElementById(`subscribe${channel.charAt(0).toUpperCase() + channel.slice(1)}`);
+        if (checkbox.checked) {
+          liveEmitter.on(channel, (message) => {
+            log('liveOutput', `[${channel}] ${message}`);
+          });
+        }
+      });
+    }
+
+    // 设置初始订阅
+    setupChannelSubscriptions();
+
+    // 监听复选框变化
+    channels.forEach(channel => {
+      const checkboxId = `subscribe${channel.charAt(0).toUpperCase() + channel.slice(1)}`;
+      document.getElementById(checkboxId).addEventListener('change', setupChannelSubscriptions);
+    });
+
+    // 发送消息
+    document.getElementById('sendMessage').addEventListener('click', () => {
+      const message = document.getElementById('messageInput').value;
+      const channel = document.getElementById('channelSelect').value;
+
+      if (!message.trim()) {
+        log('liveOutput', '请输入消息内容', false);
+        return;
+      }
+
+      liveEmitter.emit(channel, message);
+      document.getElementById('messageInput').value = '';
+    });
+
+    // 允许按回车键发送消息
+    document.getElementById('messageInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('sendMessage').click();
+      }
+    });
+  </script>
+</body>
+</html>
