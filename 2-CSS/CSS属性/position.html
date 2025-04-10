@@ -1,0 +1,120 @@
+<style>
+    body {
+        margin: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        position: relative;
+        border: 2px dashed #ccc;
+        padding: 20px;
+        margin-bottom: 30px;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .box {
+        width: 100px;
+        height: 100px;
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        line-height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .static {
+        position: static;
+        background-color: #e74c3c;
+    }
+
+    .relative {
+        position: relative;
+        top: 20px;
+        left: 20px;
+        background-color: #2ecc71;
+    }
+
+    .absolute {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background-color: #f39c12;
+    }
+
+    .fixed {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #9b59b6;
+    }
+
+    .sticky {
+        position: sticky;
+        top: 0;
+        background-color: #1abc9c;
+    }
+
+    .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 5px;
+        background-color: #ff4757;
+        width: 0;
+        transition: width 0.3s;
+        z-index: 1000;
+    }
+
+    h2 {
+        margin-top: 30px;
+    }
+</style>
+
+<h1>CSS Position 属性演示</h1>
+
+<div class="progress"></div>
+
+<h2>1. position: static（默认）</h2>
+<div class="container">
+    <div class="box static">static</div>
+    <p>静态定位是每个元素的默认值，元素出现在正常的文档流中</p>
+</div>
+
+<h2>2. position: relative</h2>
+<div class="container">
+    <div class="box relative">relative</div>
+    <p>相对定位，相对于元素的正常位置进行定位</p>
+</div>
+
+<h2>3. position: absolute</h2>
+<div class="container">
+    <div class="box absolute">absolute</div>
+    <p>绝对定位，相对于最近的已定位父元素进行定位</p>
+</div>
+
+<h2>4. position: fixed</h2>
+<div class="container">
+    <p>固定定位，相对于浏览器窗口进行定位，即使页面滚动也不会移动</p>
+</div>
+<div class="box fixed">fixed</div>
+
+<h2>5. position: sticky</h2>
+<div class="container" style="height: 300px;">
+    <p>滚动一下看看效果：</p>
+    <div style="height: 50px;"></div>
+    <div class="box sticky">sticky</div>
+    <div style="height: 400px;">
+        <p>粘性定位，基于用户的滚动位置进行定位</p>
+    </div>
+</div>
+
+<script>
+    // 为进度条添加功能
+    window.addEventListener('scroll', function () {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        document.querySelector('.progress').style.width = scrollPercentage + '%';
+    });
+</script>
