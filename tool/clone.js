@@ -65,21 +65,22 @@ function deepClone(target) {
 // 深克隆函数，解决循环引用问题
 function deepClone1(target, map = new WeakMap()) {
   // 如果目标是基本类型或者null，直接返回
-  if (typeof target !== "object" || target === null) {
-    return target;
-  }
+  if (typeof target !== "object" || target === null) return target;
 
   // 检查这个对象是否已经被复制过
-  if (map.has(target)) {
-    return map.get(target);
-  }
+  if (map.has(target)) return map.get(target);
 
   let clone = Array.isArray(target) ? [] : {};
   // 存储已经复制的对象地址（引用）
   map.set(target, clone);
 
   for (let key in target) {
-    if (Object.prototype.hasOwnProperty.call(target, key)) {
+    // if (Object.prototype.hasOwnProperty.call(target, key)) {
+    //  该方法可以在大多数 JavaScript 对象中使用，因为大多数对象都是从 Object 派生而来，因此会继承该方法。例如 Array 是一个 Object，所以你可以使用 hasOwnProperty() 方法来检查索引是否存在
+    // if (target.hasOwnProperty(key)) {
+    // Object.hasOwn() 旨在取代 Object.prototype.hasOwnProperty()。
+    // 它也可以用于测试使用 Object.create(null) 创建的对象。这些对象不会继承自 Object.prototype，因此 hasOwnProperty() 方法是无法访问的。
+    if (Object.hasOwn(target, key)) {
       // 递归克隆
       clone[key] = deepClone1(target[key], map);
     }
@@ -90,14 +91,10 @@ function deepClone1(target, map = new WeakMap()) {
 // 修改
 function deepClone2(target, map = new Map()) {
   // 如果目标是基本类型或者null，直接返回
-  if (typeof target !== "object" || target === null) {
-    return target;
-  }
+  if (typeof target !== "object" || target === null) return target;
 
   // 检查这个对象是否已经被复制过
-  if (map.has(target)) {
-    return map.get(target);
-  }
+  if (map.has(target)) return map.get(target);
 
   let clone = Array.isArray(target) ? [] : {};
   // 存储已经复制的对象地址（引用）
