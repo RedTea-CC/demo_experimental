@@ -18,9 +18,7 @@ function cusFlat(array) {
 }
 
 function cusFlat2(array, depth = 1) {
-  return depth > 0
-    ? array.reduce((arr, value) => arr.concat(Array.isArray(value) ? cusFlat2(value, depth - 1) : value), [])
-    : [...array];
+
 }
 
 const flatArray = cusFlat2(arr);
