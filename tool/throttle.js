@@ -12,8 +12,8 @@ function throttle(func, wait) {
     const now = Date.now(); // 当前时间戳
     const context = this;
 
+    // 如果距离上一次执行的时间超过了设定的间隔时间
     if (now - lastTime >= wait) {
-      // 如果距离上一次执行的时间超过了设定的间隔时间
       lastTime = now; // 更新上一次执行的时间戳
       func.apply(context, args); // 执行目标函数
     }
