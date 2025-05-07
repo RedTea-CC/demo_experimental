@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>左侧固定，右侧自适应</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .left {
+            width: 200px;
+            /* 左侧固定宽度 */
+            background-color: #f0f0f0;
+        }
+
+        .middle {
+            flex: 1;
+            background-color: #ccc;
+        }
+
+        .right {
+            width: 200px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            左侧固定宽度
+        </div>
+        <div class="middle">
+            自适应宽度
+        </div>
+        <div class="right">
+            右侧固定宽度
+        </div>
+    </div>
+</body>
+
+</html>
