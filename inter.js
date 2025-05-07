@@ -1,10 +1,8 @@
-// 实现一个类的add方法，使得同时的并行请求只有两个，并行请求完成后自动执行下一个任务直到全部执行完。
-
 class TaskQueue {
   // 私有字段
   #queue = [];
   #runningCount = 0;
-  #maxConcurrent = 2;
+  #maxConcurrent = 5;
 
   add(task) {
     // 将任务添加到队列中
