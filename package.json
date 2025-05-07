@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "test": "node demo copy.js"
+    "test": "jest",
+    "doc": "jsdoc --configure .jsdocrc"
   },
   "devDependencies": {
     "jest": "^29.7.0",

@@ -1,97 +1,97 @@
-const { Worker } = require("worker_threads");
-const os = require("os");
-
-class ThreadPool {
-  constructor(maxWorkers = os.cpus().length) {
-    this.maxWorkers = maxWorkers; // 最大并行Worker数量
-    this.taskQueue = []; // 待处理任务队列
-    this.activeWorkers = 0; // 当前活跃Worker数量
+export class Pool {
+  /**
+   * 任务池类，用于管理任务的并行执行，控制同时执行的任务数量。
+   */
+  /**
+   * 构造函数，初始化任务池。
+   * @param {number} [maxWorkers=3] - 最大并行任务数。
+   */
+  constructor(maxWorkers = 3) {
+    // 最大并行任务数
+    this.maxWorkers = maxWorkers;
+    // 待执行的任务队列
+    this.taskQueue = [];
+    // 当前正在执行的任务数量
+    this.activeWorkers = 0;
   }
 
   /**
-   * 添加任务到线程池
-   * @param {*} taskData 任务数据（传递给Worker的数据）
-   * @returns {Promise} 任务完成后的结果Promise
+   * 向任务池添加一个新任务。
+   * @param {Function} task - 要执行的任务函数。
+   * @returns {Promise} - 一个 Promise，当任务完成或失败时解析。
    */
-  addTask(taskData) {
+  addTask(task) {
     return new Promise((resolve, reject) => {
-      // 将任务加入队列
-      this.taskQueue.push({ taskData, resolve, reject });
-      // 尝试触发任务处理
+      // 将任务及其回调添加到队列中
+      this.taskQueue.push({ task, resolve, reject });
+      // 尝试处理下一个任务
       this._processNextTask();
     });
   }
 
   /**
-   * 内部方法：处理下一个任务
+   * 内部方法，处理队列中的下一个任务。
    */
   _processNextTask() {
-    // 达到最大并行数或队列为空时停止
+    // 如果达到最大并行任务数或队列为空，则不处理
     if (this.activeWorkers >= this.maxWorkers || this.taskQueue.length === 0) return;
 
-    // 取出队列中的任务
-    const { taskData, resolve, reject } = this.taskQueue.shift();
+    // 从队列中取出一个任务
+    const { task, resolve, reject } = this.taskQueue.shift();
+    // 增加活跃任务数
     this.activeWorkers++;
 
-    // 创建Worker并执行任务
-    const worker = new Worker("./worker-script.js", { workerData: taskData });
-
-    // 监听Worker消息（任务完成）
-    worker.on("message", (result) => {
-      resolve(result);
-      this._cleanupWorker(worker);
-    });
-
-    // 监听错误
-    worker.on("error", (err) => {
+    try {
+      // 执行任务
+      const result = task();
+      // 确保任务结果是一个 Promise，并处理结果
+      Promise.resolve(result)
+        .then(resolve)
+        .catch(reject)
+        .finally(() => this._cleanup());
+    } catch (err) {
+      // 捕获同步错误并拒绝 Promise
       reject(err);
-      this._cleanupWorker(worker);
-    });
-
-    // 监听退出事件
-    worker.on("exit", (code) => {
-      if (code !== 0) {
-        reject(new Error(`Worker stopped with exit code ${code}`));
-      }
-      this._cleanupWorker(worker);
-    });
+      // 清理资源
+      this._cleanup();
+    }
   }
 
   /**
-   * 清理Worker并触发下一个任务
-   * @param {Worker} worker 要终止的Worker实例
+   * 内部方法，清理资源并尝试处理下一个任务。
    */
-  _cleanupWorker(worker) {
-    worker.terminate(); // 终止Worker
+  _cleanup() {
+    // 减少活跃任务数
     this.activeWorkers--;
-    this._processNextTask(); // 继续处理下一个任务
+    // 尝试处理下一个任务
+    this._processNextTask();
   }
 
   /**
-   * 等待所有任务完成（可选扩展）
+   * 等待所有任务完成。
    */
   async drain() {
+    // 循环等待，直到所有任务完成
     while (this.activeWorkers > 0 || this.taskQueue.length > 0) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
 }
 
-// 使用示例
-async function main() {
-  // 创建线程池（默认使用CPU核心数）
-  const pool = new ThreadPool();
+// 创建实例
+const taskQueue = new Pool();
 
-  // 添加100个任务
-  const tasks = Array.from({ length: 100 }, (_, i) => i);
-  const promises = tasks.map((task) => pool.addTask(task));
-
-  // 等待所有任务完成
-  const results = await Promise.all(promises);
-  console.log("All tasks completed:", results);
-
-  // 或者使用drain方法
-  // await pool.drain();
+// 添加任务
+for (let i = 1; i <= 10; i++) {
+  taskQueue.addTask(() => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const result = `Task ${i} result`;
+        // console.log(`${result} completed`);
+        resolve(result);
+      }, Math.random() * 1000);
+    }).then((result) => {
+      console.log(`Task ${i} result: ${result}`);
+    });
+  });
 }
-
-main().catch(console.error);
