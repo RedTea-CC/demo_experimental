@@ -4,6 +4,7 @@
 // 柯里化的主要作用是参数复用、提前返回和延迟执行
 function currying(fn, ...args) {
   console.log("目标函数的参数个数:", fn.length, "当前已经传入的参数个数:", args.length);
+  // 参数足够则执行当前函数；如果不够，则返回一个函数收集参数。
   return fn.length <= args.length ? fn(...args) : currying.bind(null, fn, ...args);
 }
 
