@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>currentTarget vs target</title>
+    <style>
+        .outer {
+            padding: 20px;
+            background-color: lightblue;
+        }
+
+        .inner {
+            padding: 20px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer" id="outer">
+        Outer Div
+        <div class="inner" id="inner">Inner Div</div>
+    </div>
+
+    <script>
+        // target 指向事件目标节点，currentTarget 指向事件触发节点。
+        document.getElementById('outer').addEventListener('click', function (event) {
+            alert(`currentTarget: ${event.currentTarget.id}, target: ${event.target.id}`);
+        });
+        document.getElementById('inner').addEventListener('click', function (event) {
+            alert(`currentTarget: ${event.currentTarget.id}, target: ${event.target.id}`);
+        });
+    </script>
+</body>
+
+</html>
