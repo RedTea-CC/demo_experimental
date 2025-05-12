@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical and Horizontal Center</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 300px;
+            height: 300px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .center-box {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            border-radius: 10px;
+        }
+
+        /* Method 1: Flexbox */
+        .flexbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Method 2: Grid */
+        .grid {
+            display: grid;
+            place-items: center;
+        }
+
+        /* Method 3: Absolute positioning */
+        .absolute {
+            position: relative;
+        }
+
+        .absolute .center-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Method 4: Table-cell */
+        .table-cell {
+            display: table;
+        }
+
+        .table-cell .center-box {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container flexbox">
+        <div class="center-box">Flexbox</div>
+    </div>
+    <div class="container grid">
+        <div class="center-box">Grid</div>
+    </div>
+    <div class="container absolute">
+        <div class="center-box">Absolute</div>
+    </div>
+    <div class="container table-cell">
+        <div class="center-box">Table-cell</div>
+    </div>
+</body>
+
+</html>
