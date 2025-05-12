@@ -30,8 +30,22 @@ new Promise(function (resolve) {
   console.log("promise1");
   resolve();
   console.log("promise2");
-}).then(function () {
+}).then(() => {
   console.log("promise3");
 });
 
 console.log("script end");
+
+// script start
+// async1 start
+// async2
+// promise1
+// promise2
+// script end
+// async1 end
+// promise3
+// nextTick1
+// nextTick2
+// setImmediate
+// setTimeout0
+// setTimeout2
