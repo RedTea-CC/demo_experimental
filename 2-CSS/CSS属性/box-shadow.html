@@ -1,41 +1,57 @@
-<!-- 分割线组件 -->
-
-<!-- 容器，包含分割线和中间的内容 -->
 <div class="container">
-    <!-- 居中显示的内容 -->
-    <span class="wrapper center">1</span>
+    <div class="box1"></div>
+    <div class="box2"></div>
 </div>
+<div class="box border-example"></div>
+<div class="box shadow-example"></div>
+<div class="box shadow-blur"></div>
+<div class="box rounded"></div>
+
 <!--CSS-->
 <style>
-    /* 外层容器，设置分割线和定位上下文 */
     .container {
-        position: relative;
-        clear: both;
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        margin: 20px 0;
-        border-bottom: 1px solid red;
-        /* 红色底部分割线 */
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+
+        /* `border`会使元素尺寸增大，而`box-shadow`不会改变元素的实际大小。 */
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            box-shadow: 0 0 0 1px red;
+        }
+
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border: 1px solid gold;
+        }
     }
 
-    /* 居中内容的样式，绝对定位到容器中间 */
-    .wrapper {
-        position: absolute;
-        top: 50%;
-        box-sizing: border-box;
-        padding: 0 16px;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 2;
-        background: #fff;
-        /* 白色背景遮住分割线 */
-        transform: translateY(-50%);
+    .box {
+        width: 100px;
+        height: 100px;
+        margin: 20px;
+        display: inline-block;
     }
 
-    /* 居中对齐，修正位置 */
-    .centet {
-        left: 50%;
-        transform: translate(-50%, -50%);
+    .border-example {
+        border: 5px solid #3498db;
+    }
+
+    .shadow-example {
+        box-shadow: 0 0 0 5px #3498db;
+    }
+
+    .shadow-blur {
+        box-shadow: 0 0 5px 5px rgba(52, 152, 219, 0.5);
+    }
+
+    .rounded {
+        border-radius: 10px;
+        border: 5px solid #e74c3c;
+        box-shadow: 0 0 0 5px #2ecc71;
     }
 </style>
