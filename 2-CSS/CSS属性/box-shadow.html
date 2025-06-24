@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="box1"></div>
+    <div class="box2"></div>
+</div>
+<div class="box border-example"></div>
+<div class="box shadow-example"></div>
+<div class="box shadow-blur"></div>
+<div class="box rounded"></div>
+
+<!--CSS-->
+<style>
+    .container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+
+        /* `border`会使元素尺寸增大，而`box-shadow`不会改变元素的实际大小。 */
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            box-shadow: 0 0 0 1px red;
+        }
+
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border: 1px solid gold;
+        }
+    }
+
+    .box {
+        width: 100px;
+        height: 100px;
+        margin: 20px;
+        display: inline-block;
+    }
+
+    .border-example {
+        border: 5px solid #3498db;
+    }
+
+    .shadow-example {
+        box-shadow: 0 0 0 5px #3498db;
+    }
+
+    .shadow-blur {
+        box-shadow: 0 0 5px 5px rgba(52, 152, 219, 0.5);
+    }
+
+    .rounded {
+        border-radius: 10px;
+        border: 5px solid #e74c3c;
+        box-shadow: 0 0 0 5px #2ecc71;
+    }
+</style>

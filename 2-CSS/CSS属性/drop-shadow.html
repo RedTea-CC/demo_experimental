@@ -14,12 +14,16 @@
     <div class="box"></div>
 
     <style>
-        div {
+        .container {
             width: 100px;
             height: 100px;
             background-color: #fff;
+            border-radius: 50%;
             /* 通过drop-shadow设置元素非透明区域的"border" */
             filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+            /* opacity: 0; */
+
+            /* box-shadow: 0 0 1px rgba(0, 0, 0, 1); */
         }
 
         .box {
@@ -29,7 +33,9 @@
             height: 200px;
             border-radius: 4px;
             background: #fff;
+            /* `drop-shadow()` 仅作用于元素的 非透明区域 */
             filter: drop-shadow(0px 0px 1px black);
+            /* box-shadow: 0px 0px 1px black; */
         }
 
         .box::before {

@@ -62,7 +62,9 @@ function deepClone(target) {
   return clone;
 }
 
-// 深克隆函数，解决循环引用问题
+// 深克隆函数，WeakMap 解决循环引用问题
+// weakMap 和 map 的区别在于，weakMap 的键是弱引用的对象，这意味着如果没有其他引用指向这个对象，垃圾回收器会自动清除它
+// WeakMap 适用于存储对象的引用，而 Map 适用于存储基本类型的值
 function deepClone1(target, map = new WeakMap()) {
   // 如果目标是基本类型或者null，直接返回
   if (typeof target !== "object" || target === null) return target;

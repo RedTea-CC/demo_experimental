@@ -1,40 +1,28 @@
-let input = '{"a": {"b": "test"}, "c": false} {"d": 123, "e": null}{"f": [1, 2, 3]}';
+// ------数组转树
 
-// 转换成对象{}
-function parseJson(str) {
-  let obj = {};
-  let key = "";
-  let value = "";
-  let inQuotes = false;
-  for (let i = 0; i < str.length; i++) {
-    let char = str[i];
-    if (char === "{") {
-      obj[key] = parseJson(str.substring(i + 1));
-      break;
+function arrayToTree(array) {
+  const idMap = new Map();
+  array.forEach((item) => idMap.set(item.id, { ...item, children: [] }));
+
+  const roots = [];
+  array.forEach((item) => {
+    if (item.parent === null) {
+      roots.push(idMap.get(item.id));
+    } else {
+      idMap.get(item.parent).children.push(item);
     }
-    if (char === "}") {
-      break;
-    }
-    if (char === ":") {
-      key = value;
-      value = "";
-      continue;
-    }
-    if (char === '"') {
-      inQuotes = !inQuotes;
-      continue;
-    }
-    if (!inQuotes && char === ",") {
-      obj[key] = value;
-      key = "";
-      value = "";
-      continue;
-    }
-    if (!inQuotes && char === " ") {
-      continue;
-    }
-    value += char;
-  }
-  return obj;
+  });
+  return roots;
 }
-console.log(parseJson(input));
+
+let tree = arrayToTree([
+  { id: 1, value: 1, parent: null },
+  { id: 2, value: 2, parent: 1 },
+  { id: 3, value: 3, parent: 1 },
+  { id: 4, value: 4, parent: 2 },
+  { id: 5, value: 5, parent: 2 },
+]);
+
+console.log(tree);
+
+// ------end
