@@ -1,4 +1,16 @@
 /**
+ * @file ES6新特性示例
+ * @description 本文件包含ES6中一些核心新特性的示例代码，包括：
+ * - 数组去重
+ * - 模板字符串
+ * - 默认参数
+ * - 展开运算符 (Spread Operator)
+ * - rest参数
+ * - 解构赋值 (数组解构和对象解构)
+ * 旨在通过具体代码展示这些特性的用法及其优势。
+ */
+
+/**
  * 判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回 false。
  *
  * @param {Array} array - 需要搜索的数组。
@@ -120,3 +132,87 @@ console.log(array1.copyWithin(0, 3, 4));
 // Expected output: Array ["d", "b", "c", "d", "e"]
 console.log(array1.copyWithin(1, 3));
 // Expected output: Array ["d", "d", "e", "d", "e"]
+
+/**
+ * 使用Set实现数组去重
+ * @param {Array<any>} arr - 待去重的数组
+ * @returns {Array<any>} 去重后的新数组
+ * @example
+ * const arr = [1, 2, 2, 3, 4, 4, 5];
+ * const uniqueArr = uniqueArray(arr); // [1, 2, 3, 4, 5]
+ */
+function uniqueArray(arr) {
+  return [...new Set(arr)];
+}
+
+/**
+ * 演示模板字符串的使用
+ * @param {string} name - 姓名
+ * @param {number} age - 年龄
+ * @returns {string} 格式化后的问候语
+ * @example
+ * const greeting = greet('Alice', 30); // "Hello, Alice! You are 30 years old."
+ */
+function greet(name, age) {
+  return `Hello, ${name}! You are ${age} years old.`;
+}
+
+/**
+ * 演示默认参数的使用
+ * @param {string} msg - 消息内容
+ * @returns {string} 带有默认值（"Hello"）的消息
+ * @example
+ * const defaultMsg = showMessage(); // "Hello"
+ * const customMsg = showMessage('Hi there'); // "Hi there"
+ */
+function showMessage(msg = "Hello") {
+  return msg;
+}
+
+/**
+ * 演示展开运算符和rest参数的使用
+ * @param {number} a - 第一个数字
+ * @param {number} b - 第二个数字
+ * @param {...number} rest - 剩余的数字参数
+ * @returns {number} 所有数字的和
+ * @example
+ * const sum1 = sum(1, 2, 3, 4); // 10
+ * const sum2 = sum(5, 6); // 11
+ */
+function sum(a, b, ...rest) {
+  return a + b + rest.reduce((acc, val) => acc + val, 0);
+}
+
+/**
+ * 演示数组和对象的解构赋值
+ * @returns {void}
+ * @example
+ * // 直接运行此函数以查看控制台输出
+ * destructuringExample();
+ */
+function destructuringExample() {
+  // 数组解构
+  const [first, second, ...restArr] = [10, 20, 30, 40, 50];
+  console.log(`Array Destructuring:`);
+  console.log(`First: ${first}, Second: ${second}, Rest: ${restArr}`); // Expected: First: 10, Second: 20, Rest: [30, 40, 50]
+
+  // 对象解构
+  const person = { name: 'Bob', age: 25, city: 'New York' };
+  const { name, age, country = 'USA' } = person;
+  console.log(`Object Destructuring:`);
+  console.log(`Name: ${name}, Age: ${age}, Country: ${country}`); // Expected: Name: Bob, Age: 25, Country: USA
+
+  // 解构参数
+  function printPerson({ name, age }) {
+    console.log(`Print Person: Name: ${name}, Age: ${age}`);
+  }
+  printPerson(person); // Expected: Print Person: Name: Bob, Age: 25
+}
+
+// 示例调用 (已注释，避免自动运行时输出)
+// console.log('Unique Array:', uniqueArray([1, 2, 2, 3, 4, 4, 5]));
+// console.log('Greeting:', greet('Alice', 30));
+// console.log('Show Message (default):', showMessage());
+// console.log('Show Message (custom):', showMessage('Hi from ES6'));
+// console.log('Sum:', sum(1, 2, 3, 4, 5));
+// destructuringExample();
